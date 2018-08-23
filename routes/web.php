@@ -18,4 +18,5 @@ Route::get('/', function () {
 //后台
 Route::namespace('Admin')->prefix('admin')->group(function(){
     Route::any('index', 'IndexController@index');
+//    Route::any('index', 'IndexController@index');
 });
