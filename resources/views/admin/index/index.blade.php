@@ -16,8 +16,6 @@
 
 @section('script')
     <script>
-        $(function(){
-            alert(123)
-        })
+
     </script>
 @endsection
