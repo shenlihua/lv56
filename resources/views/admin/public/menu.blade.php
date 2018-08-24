@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{url('admin/index')}}">SB Admin v2.0</a>
+        <a class="navbar-brand" href="{{url('admin/index')}}">系统后台</a>
     </div>
 
     @include('admin.public.header')
@@ -25,6 +25,17 @@
                                 </span>
                     </div>
                     <!-- /input-group -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-globe  fa-fw"></i> 商品管理<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{url('admin/goodsCate')}}">商品分类</a>
+                        </li>
+                        <li>
+                            <a href="{{url('admin/goodsList')}}">商品分类</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="{{url('admin/index')}}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>

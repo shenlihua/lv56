@@ -32,4 +32,8 @@ Route::namespace('Admin')->prefix('admin')->group(function(){
     Route::any('tables', 'IndexController@tables');
     Route::any('typography', 'IndexController@typography');
     /*后台模版样式结束*/
+
+    Route::any('goodsCate','GoodsController@cate');
+    Route::any('goodsCateAdd','GoodsController@cateAdd');
+    Route::any('goodsCateAddAction','GoodsController@cateAddAction');
 });
