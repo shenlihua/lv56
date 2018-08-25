@@ -40,8 +40,13 @@
     <script>
         $(function(){
             $("#submit").click(function(){
-                $.post($("#form").attr('action'),$("#form").serialize(),function(result){
-                    console.log(result);
+                $.ajax({
+                    type:'post',
+                    url:$("#form").attr('action'),
+                    data:$("#form").serialize(),
+                    success:function(result){
+
+                    }
                 })
             })
         })
