@@ -9,7 +9,7 @@
 
         <div class="row panel-body">
             <div class="col-sm-5">
-                <a href="{{url('admin/goodsCateAdd')}}" class="btn btn-primary">添加分类</a>
+                <a href="{{url('admin/goodsAdd')}}" class="btn btn-primary">添加商品</a>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -18,29 +18,21 @@
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>商品名称</th>
                     <th>分类名</th>
+                    <th>售价</th>
+                    <th>原价</th>
+                    <th>库存</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($model as $vo)
-                    <tr>
-                        <td>{{$vo->id}}</td>
-                        <td>{{$vo->name}}</td>
-                        <td>{{$fields_status[$vo->status]}}</td>
-                        <td>
-                            <a href="{{url('admin/goodsCateAdd',[$vo->id])}}">编辑</a>
-                            <a href="javascript:;" class="data-del" data-id="{{$vo->id}}">删除</a>
-                        </td>
-                    </tr>
-                @endforeach
 
                 </tbody>
             </table>
         </div>
         <!-- /.table-responsive -->
-        {{ $model->links() }}
 </div>
 @endsection
 

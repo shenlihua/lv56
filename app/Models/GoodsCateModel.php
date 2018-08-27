@@ -12,6 +12,7 @@ class GoodsCateModel extends CommonModel
 
     public $timestamps = false;
 
+
     /*
      * 属性注入
      * */

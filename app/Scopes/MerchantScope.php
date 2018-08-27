@@ -19,6 +19,6 @@ class MerchantScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        return $builder->where('shop_id', '=', 1);
+        return $builder->where('shop_id', '=', $model::$merchant_id);
     }
 }

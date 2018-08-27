@@ -33,7 +33,7 @@
                             <a href="{{url('admin/goodsCate')}}">商品分类</a>
                         </li>
                         <li>
-                            <a href="{{url('admin/goodsList')}}">商品分类</a>
+                            <a href="{{url('admin/goodsList')}}">商品列表</a>
                         </li>
                     </ul>
                 </li>

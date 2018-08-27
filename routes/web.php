@@ -32,9 +32,14 @@ Route::namespace('Admin')->prefix('admin')->group(function(){
     Route::any('tables', 'IndexController@tables');
     Route::any('typography', 'IndexController@typography');
     /*后台模版样式结束*/
-
+    //商品分类
     Route::any('goodsCate','GoodsController@cate');
     Route::any('goodsCateAdd/{id?}','GoodsController@cateAdd')->where(['id' => '\d+']);
     Route::any('goodsCateDel/{id?}','GoodsController@cateDel')->where(['id' => '\d+']);
     Route::any('goodsCateAddAction','GoodsController@cateAddAction');
+    //商品列表
+    Route::any('goodsList','GoodsController@index');
+    Route::any('goodsAdd/{id?}','GoodsController@add');
+    Route::any('goodsDel/{id?}','GoodsController@del')->where(['id' => '\d+']);
+    Route::any('goodsAddAction','GoodsController@addAction');
 });
