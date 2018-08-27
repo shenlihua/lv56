@@ -30,4 +30,6 @@ class GoodsCatePost extends CommonPost
             'name.max'  => '商品分类名长度不能超过10个字符',
         ];
     }
+
+
 }

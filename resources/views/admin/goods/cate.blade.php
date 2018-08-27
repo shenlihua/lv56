@@ -24,27 +24,44 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                @foreach($model as $vo)
+                    <tr>
+                        <td>{{$vo->id}}</td>
+                        <td>{{$vo->name}}</td>
+                        <td>{{$vo->status}}</td>
+                        <td>
+                            <a href="{{url('admin/goodsCateAdd',[$vo->id])}}">编辑</a>
+                            <a href="javascript:;" class="data-del" data-id="{{$vo->id}}">删除</a>
+                        </td>
+                    </tr>
+                @endforeach
+
                 </tbody>
             </table>
         </div>
         <!-- /.table-responsive -->
+        {{ $model->links() }}
 </div>
+@endsection
+
+@section('script')
+    <script>
+        layui.use('layer', function(){
+            var layer = layui.layer;
+        });
+
+        $(".data-del").click(function(){
+            var $this= $(this);
+            var id= $this.data('id');
+            layer.confirm("是否删除该数据",function(index){
+                $.post("{{url('admin/goodsCateDel')}}",{id:id},function(result){
+                    layer.msg(result.msg);
+                    if(result.code==1){
+                        $this.parent().parent().remove();
+                    }
+                })
+            })
+        })
+
+    </script>
 @endsection

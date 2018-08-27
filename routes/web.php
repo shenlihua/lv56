@@ -34,6 +34,7 @@ Route::namespace('Admin')->prefix('admin')->group(function(){
     /*后台模版样式结束*/
 
     Route::any('goodsCate','GoodsController@cate');
-    Route::any('goodsCateAdd','GoodsController@cateAdd');
+    Route::any('goodsCateAdd/{id?}','GoodsController@cateAdd')->where(['id' => '\d+']);
+    Route::any('goodsCateDel/{id?}','GoodsController@cateDel')->where(['id' => '\d+']);
     Route::any('goodsCateAddAction','GoodsController@cateAddAction');
 });
