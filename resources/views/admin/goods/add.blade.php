@@ -20,11 +20,12 @@
 @section('content')
 
     <div class="row">
-        <form class="form-horizontal" action="{{url('admin/goodsAddAction')}}" id="form">
+        <form class="form-horizontal" action="{{url('admin/goodsAddAction')}}" method="post" id="form">
+            {{ csrf_field() }}
             <input type="hidden" name="id" value=""/>
             <div class="form-group">
                 <label  class="col-sm-2 control-label">商品分类</label>
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                     <select name="cid" class="form-control">
                         <option value="">请选择</option>
                         @foreach($cate_list as $vo)
@@ -35,13 +36,13 @@
             </div>
             <div class="form-group">
                 <label  class="col-sm-2 control-label">名称</label>
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                     <input type="text" class="form-control" name="name" value="" maxlength="100" placeholder="名称">
                 </div>
             </div>
             <div class="form-group">
                 <label  class="col-sm-2 control-label">图片</label>
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                     <div class="row">
                         <div class="col-sm-2">
                             <button type="button" class="layui-btn" id="upload">
@@ -72,24 +73,24 @@
                     商品属性
                     <span class="btn glyphicon glyphicon-plus attr-add"></span>
                 </label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
 
                     <div class="panel panel-default">
 
                         <div class="panel-body">
-                            <div class="col-sm-4">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     <label  class="col-sm-4 control-label">属性名称: </label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="sort" value="">
+                                        <input type="text" class="form-control" name="attr[name][]" value="">
                                     </div>
                                     <label  class="col-sm-4 control-label">商品价格: </label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="sort" value="">
+                                        <input type="number" class="form-control" name="attr[price][]" value="">
                                     </div>
                                     <label  class="col-sm-4 control-label">商品库存: </label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="sort" value="">
+                                        <input type="number" class="form-control" name="attr[stock][]" value="">
                                     </div>
                                 </div>
                             </div>
@@ -104,12 +105,14 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td> <input type="text" class="form-control" name="attr[]" value="" ></td>
-                                        <td><input type="text" class="form-control" name="attr[]" value="" ></td>
+                                        <td> <input type="text" class="form-control" name="attr[attr][key][]" value="" ></td>
+                                        <td><input type="text" class="form-control" name="attr[attr][value][]" value="" ></td>
                                         <td><span class="glyphicon glyphicon-minus-sign btn-attr-del"></span></td>
                                     </tr>
                                     </tbody>
                                 </table>
+                                <input type="hidden" name="attr[attr][key][]" value="end"/>
+                                <input type="hidden" name="attr[attr][value][]" value="end"/>
                             </div>
                         </div>
                     </div>
@@ -121,14 +124,14 @@
             </div>
             <div class="form-group">
                 <label  class="col-sm-2 control-label">排序</label>
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                     <input type="number" class="form-control" name="sort" value="" max="100" min="1">
                 </div>
             </div>
 
             <div class="form-group">
                 <label  class="col-sm-2 control-label">状态</label>
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                     <label class="radio-inline">
                         <input type="radio" name="status"  value="1"  > 启用
                     </label>
@@ -140,20 +143,20 @@
 
             <div class="form-group">
                 <label  class="col-sm-2 control-label">简介</label>
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                     <textarea class="form-control" name="intro" rows="3"></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label  class="col-sm-2 control-label">内容</label>
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                     <textarea id="demo" name="content" style="display: none;"></textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-default" id="submit">保存
+                    <button type="submit" class="btn btn-default" >保存
 
                     </button>
                 </div>
@@ -193,7 +196,7 @@
                     var html = '<div>\n' +
                         '<span class="glyphicon glyphicon-remove"></span>' +
                         '<img src="'+storage_path+res.path+'" alt="" >'+
-                        '<input type="hidden" name="img[]" value="+res.path+"/>'+
+                        '<input type="hidden" name="img[]" value="'+res.path+'"/>'+
                         '</div>';
                     $(".goods-img").append(html)
                 }
@@ -214,22 +217,22 @@
                 })
             });
             $("#form").on('click','.attr-add',function(){
-                var html = '<div class="panel panel-default">\n' +
+                var html = ' <div class="panel panel-default">\n' +
                     '\n' +
                     '                        <div class="panel-body">\n' +
-                    '                            <div class="col-sm-4">\n' +
+                    '                            <div class="col-sm-5">\n' +
                     '                                <div class="form-group">\n' +
                     '                                    <label  class="col-sm-4 control-label">属性名称: </label>\n' +
                     '                                    <div class="col-sm-8">\n' +
-                    '                                        <input type="number" class="form-control" name="sort" value="">\n' +
+                    '                                        <input type="text" class="form-control" name="attr[name][]" value="">\n' +
                     '                                    </div>\n' +
                     '                                    <label  class="col-sm-4 control-label">商品价格: </label>\n' +
                     '                                    <div class="col-sm-8">\n' +
-                    '                                        <input type="number" class="form-control" name="sort" value="">\n' +
+                    '                                        <input type="number" class="form-control" name="attr[price][]" value="">\n' +
                     '                                    </div>\n' +
                     '                                    <label  class="col-sm-4 control-label">商品库存: </label>\n' +
                     '                                    <div class="col-sm-8">\n' +
-                    '                                        <input type="number" class="form-control" name="sort" value="">\n' +
+                    '                                        <input type="number" class="form-control" name="attr[stock][]" value="">\n' +
                     '                                    </div>\n' +
                     '                                </div>\n' +
                     '                            </div>\n' +
@@ -244,24 +247,27 @@
                     '                                    </thead>\n' +
                     '                                    <tbody>\n' +
                     '                                    <tr>\n' +
-                    '                                        <td> <input type="text" class="form-control" name="attr[]" value="" ></td>\n' +
-                    '                                        <td><input type="text" class="form-control" name="attr[]" value="" ></td>\n' +
+                    '                                        <td> <input type="text" class="form-control" name="attr[attr][key][]" value="" ></td>\n' +
+                    '                                        <td><input type="text" class="form-control" name="attr[attr][value][]" value="" ></td>\n' +
                     '                                        <td><span class="glyphicon glyphicon-minus-sign btn-attr-del"></span></td>\n' +
                     '                                    </tr>\n' +
                     '                                    </tbody>\n' +
                     '                                </table>\n' +
+                    '                                <input type="hidden" name="attr[attr][key][]" value="end"/>\n' +
+                    '                                <input type="hidden" name="attr[attr][value][]" value="end"/>\n' +
                     '                            </div>\n' +
                     '                        </div>\n' +
-                    '                    </div>';
+                    '                    </div>\n';
                 $(this).parent().next().append(html)
             });
             //添加属性
             $("#form").on('click','.btn-attr-add',function(){
                 var html = '<tr>\n' +
-                    '<td> <input type="text" class="form-control" name="attr[]" value="" ></td>\n' +
-                    '<td><input type="text" class="form-control" name="attr[]" value="" ></td>\n' +
+                    '<tr>\n' +
+                    '<td> <input type="text" class="form-control" name="attr[attr][key][]" value="" ></td>\n' +
+                    '<td><input type="text" class="form-control" name="attr[attr][value][]" value="" ></td>\n' +
                     '<td><span class="glyphicon glyphicon-minus-sign btn-attr-del"></span></td>\n' +
-                    '</tr>';
+                    '</tr>\n';
                 $(this).parents('.table-attr').find('tbody').append(html)
             });
             //删除属性

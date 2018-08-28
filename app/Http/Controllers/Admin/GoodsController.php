@@ -69,11 +69,53 @@ class GoodsController extends CommonController
         ]);
     }
 
-    public function addAction(GoodsCatePost $request)
+    public function addAction(Request $request)
     {
         $input_data = $request->input();
-        $model = new \App\Models\GoodsModel();
-        $result = $this->_dataSave($model,$input_data);
+//        dump($input_data);exit;
+
+        //商品属性
+        $attr_data =[];
+        for($i=0;$i<count($input_data['attr']['name']);$i++) {
+            $attr=[];
+
+            foreach($input_data['attr']['attr']['key'] as $k=>$st) {
+                $attr_key = $st;
+                $attr_value = $input_data['attr']['attr']['value'][$k];
+                unset(
+                    $input_data['attr']['attr']['key'][$k],
+                    $input_data['attr']['attr']['value'][$k]
+                );
+                if($st=='end'){
+                    break;
+                } else {
+                    $attr[$attr_key] = $attr_value;
+                }
+            }
+//            dump($attr);exit;
+//            dump($key);
+//            dump($input_data['attr']['name'][$i]);exit;
+            $attr_data[] = [
+                'name' => $input_data['attr']['name'][$i],
+                'price' => $input_data['attr']['price'][$i],
+                'stock' => $input_data['attr']['stock'][$i],
+                'attr' => json_encode($attr)
+            ];
+        }
+//        dump($attr_data);exit;
+        $where['merchant_id'] = $this->merchant_id;
+        $where['shop_id'] = $this->shop_id;
+
+        try{
+            $where['id'] = $input_data['id'];
+            $model = new \App\Models\GoodsModel();
+            $model = $model->updateOrCreate($where,$input_data);
+            return ['code'=>1,'msg'=>'操作成功:'];
+        } catch (\Exception $e) {
+            return ['code'=>0,'msg'=>'操作异常:'.$e->getMessage()];
+        }
+
+
         return $result;
 
     }
