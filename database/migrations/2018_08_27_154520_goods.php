@@ -24,6 +24,7 @@ class Goods extends Migration
             $table->string('intro')->comment('商品简介');//简介
             $table->string('content')->commnet('商品详细内容');//详细内容
             $table->smallInteger('sold_num')->default(0)->comment('销售量');//销售数量
+            $table->tinyInteger('sort')->default(100)->comment('排序');//详细内容
             $table->tinyInteger('status')->default(1)->comment('商品状态 1正常2关闭');//详细内容
             $table->timestamps();
             $table->dateTime('deleted_at');

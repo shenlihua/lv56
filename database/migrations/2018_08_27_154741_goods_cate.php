@@ -18,7 +18,7 @@ class GoodsCate extends Migration
             $table->integer('merchant_id')->comment('商户id');
             $table->integer('shop_id')->comment('店铺id');
             $table->string('name')->comment('分类名称');
-            $table->tinyInteger('sort')->defalut(100);
+            $table->tinyInteger('sort')->default(100)->comment('排序');//详细内容
             $table->tinyInteger('status')->default(1)->comment('状态1正常 2关闭');
             $table->integer('last_time');//最后一次操作时间
             $table->dateTime('deleted_at');

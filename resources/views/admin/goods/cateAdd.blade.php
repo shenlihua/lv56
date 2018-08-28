@@ -20,12 +20,6 @@
                     <input type="number" class="form-control" name="sort" value="{{$model->sort?$model->sort:100}}" max="100" min="1">
                 </div>
             </div>
-            <div class="form-group">
-                <label  class="col-sm-2 control-label">排序</label>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control" name="aaaaaa" value="{{$model->sort?$model->sort:100}}" max="100" min="1">
-                </div>
-            </div>
 
             <div class="form-group">
                 <label  class="col-sm-2 control-label">状态</label>

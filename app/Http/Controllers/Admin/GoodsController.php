@@ -6,6 +6,8 @@ use App\Http\Requests\GoodsCatePost;
 use App\Models\GoodsCateModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 
 class GoodsController extends CommonController
 {
@@ -59,15 +61,18 @@ class GoodsController extends CommonController
 
     public function add()
     {
-        return view('admin.goods.add');
+        $cate_model = new \App\Models\GoodsCateModel();
+        $cate_list = $cate_model->where([['status','=',1]])->orderby('sort','asc')->get();
+
+        return view('admin.goods.add',[
+            'cate_list' => $cate_list,
+        ]);
     }
 
     public function addAction(GoodsCatePost $request)
     {
-//        dump($request->input());exit;
         $input_data = $request->input();
         $model = new \App\Models\GoodsModel();
-//        $input_data['last_time']=0;
         $result = $this->_dataSave($model,$input_data);
         return $result;
 

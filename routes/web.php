@@ -32,6 +32,10 @@ Route::namespace('Admin')->prefix('admin')->group(function(){
     Route::any('tables', 'IndexController@tables');
     Route::any('typography', 'IndexController@typography');
     /*后台模版样式结束*/
+    //独立操作
+    Route::any('fileUpload/{file_type}','UploadController@upload');
+    Route::any('layeditUpload','UploadController@layeditUpload');
+
     //商品分类
     Route::any('goodsCate','GoodsController@cate');
     Route::any('goodsCateAdd/{id?}','GoodsController@cateAdd')->where(['id' => '\d+']);
@@ -43,3 +47,7 @@ Route::namespace('Admin')->prefix('admin')->group(function(){
     Route::any('goodsDel/{id?}','GoodsController@del')->where(['id' => '\d+']);
     Route::any('goodsAddAction','GoodsController@addAction');
 });
+
+Route::get('storage_path',function(){
+    return 123;
+})->name('storage_path');

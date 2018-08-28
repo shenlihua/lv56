@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="/layui/css/layui.css">
 </head>
 
+@yield('style')
+
 <body>
 
 <div id="wrapper">

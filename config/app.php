@@ -160,6 +160,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //视图 Composer
+//        App\Providers\ComposerServiceProvider ::class,
+
     ],
 
     /*
