@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Schema;
 class CommonModel extends Model
 {
     use SoftDeletes;
-
+    protected $is_show_ms=true;
     public static $merchant_id = 0;
     public static $shop_id = 0;
     public static $fields_status = ['删除','正常','禁用'];
@@ -25,8 +25,10 @@ class CommonModel extends Model
     {
         parent::setAttribute($key,$value);
 //        dump($this->exists);exit; //表示  true编辑  和 false新增
-        $this->attributes['merchant_id'] = self::$merchant_id;
-        $this->attributes['shop_id'] = self::$shop_id;
+        if($this->is_show_ms){
+            $this->attributes['merchant_id'] = self::$merchant_id;
+            $this->attributes['shop_id'] = self::$shop_id;
+        }
     }
 
     public function fill(array $attributes)

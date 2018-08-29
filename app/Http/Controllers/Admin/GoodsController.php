@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\GoodsCatePost;
+use App\Http\Requests\GoodsPost;
 use App\Models\GoodsCateModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -69,7 +70,7 @@ class GoodsController extends CommonController
         ]);
     }
 
-    public function addAction(Request $request)
+    public function addAction(GoodsPost $request)
     {
         $input_data = $request->input();
 //        dump($input_data);exit;
@@ -110,6 +111,11 @@ class GoodsController extends CommonController
             $where['id'] = $input_data['id'];
             $model = new \App\Models\GoodsModel();
             $model = $model->updateOrCreate($where,$input_data);
+            $model->attr()->createMany($attr_data);
+//            $attr_data = array_map(function($val)use ($id){
+//                return array_merge($val,['gid'=>$id]);
+//            },$attr_data);
+//            dump($attr_data);
             return ['code'=>1,'msg'=>'操作成功:'];
         } catch (\Exception $e) {
             return ['code'=>0,'msg'=>'操作异常:'.$e->getMessage()];

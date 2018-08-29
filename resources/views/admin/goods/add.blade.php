@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-sm-10 goods-img">
 
-                            <div>
+                            {{--<div>
                                 <span class="glyphicon glyphicon-remove"></span>
                                 <img src="{{$normal->storagePath().'goods/1_1/2018-08-28/zbohNuYBvmFZrjwChEJQdHBLjyBs0JeqaEv1godg.png'}}" alt="">
                                 <input type="hidden" name="img[]" value=""/>
@@ -60,7 +60,7 @@
                                 <span class="glyphicon glyphicon-remove"></span>
                                 <img src="{{$normal->storagePath().'goods/1_1/2018-08-28/zbohNuYBvmFZrjwChEJQdHBLjyBs0JeqaEv1godg.png'}}" alt="" >
                                 <input type="hidden" name="img[]" value=""/>
-                            </div>
+                            </div>--}}
 
                         </div>
                     </div>
@@ -78,6 +78,7 @@
                     <div class="panel panel-default">
 
                         <div class="panel-body">
+                            <button type="button" class="close btn-attr-close"><span>&times;</span></button>
                             <div class="col-sm-5">
                                 <div class="form-group">
                                     <label  class="col-sm-4 control-label">属性名称: </label>
@@ -150,13 +151,13 @@
             <div class="form-group">
                 <label  class="col-sm-2 control-label">内容</label>
                 <div class="col-sm-10">
-                    <textarea id="demo" name="content" style="display: none;"></textarea>
+                    <textarea id="demo" name="content"></textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" >保存
+                    <button type="button" class="btn btn-default" id="submit">保存
 
                     </button>
                 </div>
@@ -170,20 +171,26 @@
 @section('script')
 
     <script>
-        var storage_path = "{{$normal->storagePath()}}";
+        $(function(){
 
-        layui.use(['layer','upload','layedit'], function(){
+            var storage_path = "{{$normal->storagePath()}}";
+
+            layui.use(['layer','upload','layedit'], function(){
             var layer = layui.layer;
             var upload = layui.upload;
             var layedit = layui.layedit;
 
             layedit.set({
-                uploadImage: {
-                    url: "{{url('admin/layeditUpload')}}" //接口url
-                }
-            });
 
-            layedit.build('demo'); //建立编辑器
+            });
+            var index=layedit.build('demo',{
+                uploadImage: {
+                    url: "{{url('admin/layeditUpload')}}"
+                    , type: 'post'
+                }
+            }); //建立编辑器
+
+
             //执行实例
             var uploadInst = upload.render({
                 elem: '#upload' //绑定元素
@@ -205,21 +212,24 @@
                     layer.msg('上传异常')
                 }
             });
-        });
 
-        $(function(){
-            $(".goods-img").on('click','.glyphicon-remove',function(){
-                $(this).parent().remove()
-            });
             $("#submit").click(function(){
+                //同步富文本内容
+                layedit.sync(index)
                 $.post($("#form").attr('action'),$("#form").serialize(),function(result){
                     layer.msg(result.msg)
                 })
             });
+        });
+
+            $(".goods-img").on('click','.glyphicon-remove',function(){
+                $(this).parent().remove()
+            });
+
             $("#form").on('click','.attr-add',function(){
                 var html = ' <div class="panel panel-default">\n' +
-                    '\n' +
-                    '                        <div class="panel-body">\n' +
+                    '                        <div class="panel-body">' +
+                    '                           <button type="button" class="close btn-attr-close"><span>&times;</span></button>'+
                     '                            <div class="col-sm-5">\n' +
                     '                                <div class="form-group">\n' +
                     '                                    <label  class="col-sm-4 control-label">属性名称: </label>\n' +
@@ -272,6 +282,11 @@
             });
             //删除属性
             $("#form").on('click','.btn-attr-del',function(){
+
+                $(this).parent().parent().remove();
+            })
+            //删除属性-2
+            $("#form").on('click','.btn-attr-close',function(){
 
                 $(this).parent().parent().remove();
             })
