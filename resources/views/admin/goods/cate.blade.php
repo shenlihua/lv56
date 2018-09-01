@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{$vo->id}}</td>
                         <td>{{$vo->name}}</td>
-                        <td>{{$fields_status[$vo->status]}}</td>
+                        <td>{{$vo::$fields_status[$vo->status]}}</td>
                         <td>
                             <a href="{{url('admin/goodsCateAdd',[$vo->id])}}">编辑</a>
                             <a href="javascript:;" class="data-del" data-id="{{$vo->id}}">删除</a>

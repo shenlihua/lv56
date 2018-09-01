@@ -23,12 +23,18 @@ class CommonController extends Controller
     protected function _dataSave(CommonModel &$model,$input_data)
     {
 
-        $where['merchant_id'] = $this->merchant_id;
-        $where['shop_id'] = $this->shop_id;
 
         try{
             $primary_key = $model->getKeyName();
             $where[$primary_key] = empty($input_data[$primary_key]) ? 0 : $input_data[$primary_key];
+            //判断是否是保存状态
+            if(!$where[$primary_key]){
+                $input_data['merchant_id'] = $this->merchant_id;
+                $input_data['shop_id'] = $this->shop_id;
+            }
+
+            $where['merchant_id'] =  $this->merchant_id;
+            $where['shop_id'] =  $this->shop_id;
             $model = $model->updateOrCreate($where,$input_data);
             return ['code'=>1,'msg'=>'操作成功:'];
         } catch (\Exception $e) {

@@ -22,14 +22,14 @@
     <div class="row">
         <form class="form-horizontal" action="{{url('admin/goodsAddAction')}}" method="post" id="form">
             {{ csrf_field() }}
-            <input type="hidden" name="id" value=""/>
+            <input type="hidden" name="id" value="{{$model->id}}"/>
             <div class="form-group">
                 <label  class="col-sm-2 control-label">商品分类</label>
                 <div class="col-sm-10">
                     <select name="cid" class="form-control">
                         <option value="">请选择</option>
                         @foreach($cate_list as $vo)
-                            <option value="{{$vo->id}}">{{$vo->name}}</option>
+                            <option value="{{$vo->id}}" {{$vo->id==$model->cid?'selected':''}}>{{$vo->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -37,7 +37,7 @@
             <div class="form-group">
                 <label  class="col-sm-2 control-label">名称</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="name" value="" maxlength="100" placeholder="名称">
+                    <input type="text" class="form-control" name="name" value="{{$model->name}}" maxlength="100" placeholder="名称">
                 </div>
             </div>
             <div class="form-group">
@@ -50,18 +50,13 @@
                             </button>
                         </div>
                         <div class="col-sm-10 goods-img">
-
-                            {{--<div>
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <img src="{{$normal->storagePath().'goods/1_1/2018-08-28/zbohNuYBvmFZrjwChEJQdHBLjyBs0JeqaEv1godg.png'}}" alt="">
-                                <input type="hidden" name="img[]" value=""/>
-                            </div>
-                            <div>
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <img src="{{$normal->storagePath().'goods/1_1/2018-08-28/zbohNuYBvmFZrjwChEJQdHBLjyBs0JeqaEv1godg.png'}}" alt="" >
-                                <input type="hidden" name="img[]" value=""/>
-                            </div>--}}
-
+                            @foreach ((array)$model->img as $vo)
+                                <div>
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                    <img src="{{$normal->storagePath().$vo}}" alt="">
+                                    <input type="hidden" name="img[]" value="{{$vo}}"/>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -74,8 +69,9 @@
                     <span class="btn glyphicon glyphicon-plus attr-add"></span>
                 </label>
                 <div class="col-sm-10">
-
+                    @foreach($model->attr as $vo)
                     <div class="panel panel-default">
+                    <input type="hidden" class="form-control" name="attr[id][]" value="{{$vo->id??0}}">
 
                         <div class="panel-body">
                             <button type="button" class="close btn-attr-close"><span>&times;</span></button>
@@ -83,15 +79,15 @@
                                 <div class="form-group">
                                     <label  class="col-sm-4 control-label">属性名称: </label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="attr[name][]" value="">
+                                        <input type="text" class="form-control" name="attr[name][]" value="{{$vo->name}}">
                                     </div>
                                     <label  class="col-sm-4 control-label">商品价格: </label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="attr[price][]" value="">
+                                        <input type="number" class="form-control" name="attr[price][]" value="{{$vo->price}}">
                                     </div>
                                     <label  class="col-sm-4 control-label">商品库存: </label>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="attr[stock][]" value="">
+                                        <input type="number" class="form-control" name="attr[stock][]" value="{{$vo->stock}}">
                                     </div>
                                 </div>
                             </div>
@@ -105,11 +101,13 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td> <input type="text" class="form-control" name="attr[attr][key][]" value="" ></td>
-                                        <td><input type="text" class="form-control" name="attr[attr][value][]" value="" ></td>
-                                        <td><span class="glyphicon glyphicon-minus-sign btn-attr-del"></span></td>
-                                    </tr>
+                                    @foreach($vo['attr'] as $key=>$attr)
+                                        <tr>
+                                            <td> <input type="text" class="form-control" name="attr[attr][key][]" value="{{$key}}" ></td>
+                                            <td><input type="text" class="form-control" name="attr[attr][value][]" value="{{$attr}}" ></td>
+                                            <td><span class="glyphicon glyphicon-minus-sign btn-attr-del"></span></td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                                 <input type="hidden" name="attr[attr][key][]" value="end"/>
@@ -117,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-
+                    @endforeach
 
 
 
@@ -126,7 +124,7 @@
             <div class="form-group">
                 <label  class="col-sm-2 control-label">排序</label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control" name="sort" value="" max="100" min="1">
+                    <input type="number" class="form-control" name="sort" value="{{$model->sort??100}}" max="100" min="1">
                 </div>
             </div>
 
@@ -134,10 +132,10 @@
                 <label  class="col-sm-2 control-label">状态</label>
                 <div class="col-sm-10">
                     <label class="radio-inline">
-                        <input type="radio" name="status"  value="1"  > 启用
+                        <input type="radio" name="status"  value="1" {{$model->status!=2?'checked':''}}  > 启用
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="status" value="2"  > 禁用
+                        <input type="radio" name="status" value="2"  {{$model->status==2?'checked':''}} > 禁用
                     </label>
                 </div>
             </div>
@@ -145,13 +143,13 @@
             <div class="form-group">
                 <label  class="col-sm-2 control-label">简介</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" name="intro" rows="3"></textarea>
+                    <textarea class="form-control" name="intro" rows="3">{{$model->intro}}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label  class="col-sm-2 control-label">内容</label>
                 <div class="col-sm-10">
-                    <textarea id="demo" name="content"></textarea>
+                    <textarea id="demo" name="content">{{$model->content}}</textarea>
                 </div>
             </div>
 
@@ -228,6 +226,7 @@
 
             $("#form").on('click','.attr-add',function(){
                 var html = ' <div class="panel panel-default">\n' +
+                    '<input type="hidden" class="form-control" name="attr[id][]" value="0">'+
                     '                        <div class="panel-body">' +
                     '                           <button type="button" class="close btn-attr-close"><span>&times;</span></button>'+
                     '                            <div class="col-sm-5">\n' +

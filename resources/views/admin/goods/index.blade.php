@@ -21,14 +21,29 @@
                     <th>商品名称</th>
                     <th>分类名</th>
                     <th>售价</th>
-                    <th>原价</th>
+                    <th>活动价</th>
                     <th>库存</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
+                    @foreach($model as $key=>$vo)
+                        <tr>
+                            <td>{{$key+1}}</td>
+                            <td>{{$vo->name}}</td>
+                            <td>{{$vo->category['name']}}</td>
+                            <td>{{$vo->attrOne['price']}}</td>
+                            <td>{{$vo->attrOne['activity_one']}}</td>
+                            <td>{{$vo->attrOne['stock']}}</td>
+                            <td>{{$vo::$fields_status[$vo->status]}}</td>
 
+                            <td>
+                                <a href="{{url('admin/goodsAdd',[$vo->id])}}">编辑</a>
+                                <a href="javascript:;" class="data-del" data-id="{{$vo->id}}">删除</a>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
