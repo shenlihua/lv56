@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route,Link } from 'react-router-dom';
+
+import Home from './modules/Home';
+import About from './modules/About';
+import Repos from './modules/Repos';
+import Topics from './modules/Topics';
+
+
 
 export default class Example extends Component {
     render() {
         return (
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header">Example Component</div>
 
-                            <div className="card-body">
-                                I'm an example component!
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Router>
+              <div>
+              <ul>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/about">About</Link></li>
+                <li><Link to="/topics">Topics</Link></li>
+              </ul>
+
+              <hr />
+
+
+                <Route exact path="/" component={Home} />
+                <Route path="/about" component={About} />
+                <Route path="/topics" component={Topics} />
+              </div>
+            </Router>
         );
     }
 }

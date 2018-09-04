@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-export default class Repos extends Component {
+export default class Home extends Component {
     render() {
         return (
             <div className="container">
@@ -11,10 +11,7 @@ export default class Repos extends Component {
                             <div className="card-header">Example Component</div>
 
                             <div className="card-body">
-                                I'm an Repos component!
-                            </div>
-                            <div>
-                                {this.props.children || "Welcome to your Inbox"}
+                                I'm an Home component!
                             </div>
                         </div>
                     </div>
